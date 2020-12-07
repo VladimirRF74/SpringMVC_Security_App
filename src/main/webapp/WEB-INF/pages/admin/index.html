@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="cp1251">
+    <title>Admin panel</title>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Email</th>
+        </tr>
+            <tr th:each="msg : ${message}">
+                <td><a th:href="@{/admin/modify/{id}(id=${msg.getId()})}" th:utext="${msg.getName()}"></a></td>
+                <td><a th:href="@{/admin/modify/{id}(id=${msg.getId()})}" th:utext="${msg.getLastName()}"></a></td>
+                <td th:utext="${msg.getEmail()}"></td>
+                <td th:utext="${msg.getLogin()}"></td>
+                <td th:utext="${msg.getPassword()}"></td>
+        </tr>
+    </table>
+    <br/>
+<form th:action="@{/admin/add}">
+    <input type="submit" value="Добавить"/>
+</form>
+</div>
+<br/>
+<div>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>
+    <table>
+        <tr>
+            <td th:utext="${messages.getName()}"></td>
+            <td th:utext="${messages.getLastName()}"></td>
+            <td th:utext="${messages.getEmail()}"></td>
+            <td th:utext="${messages.getLogin()}"></td>
+            <td th:utext="${messages.getPassword()}"></td>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>
