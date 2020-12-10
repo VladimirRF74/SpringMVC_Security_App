@@ -20,7 +20,7 @@ public class UsersController {
 
     @GetMapping("/info")
     public String getInfo(ModelMap modelMap, Principal principal) {
-        modelMap.addAttribute("messages", userDao.findUserByLogin(principal.getName()));
+        modelMap.addAttribute("userInfo", userDao.findUserByLogin(principal.getName()));
         return "users/info";
     }
 

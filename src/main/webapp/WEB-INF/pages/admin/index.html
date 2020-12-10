@@ -12,7 +12,7 @@
             <th>Фамилия</th>
             <th>Email</th>
         </tr>
-            <tr th:each="msg : ${message}">
+            <tr th:each="msg : ${userList}">
                 <td><a th:href="@{/admin/modify/{id}(id=${msg.getId()})}" th:utext="${msg.getName()}"></a></td>
                 <td><a th:href="@{/admin/modify/{id}(id=${msg.getId()})}" th:utext="${msg.getLastName()}"></a></td>
                 <td th:utext="${msg.getEmail()}"></td>
@@ -30,18 +30,6 @@
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
-</div>
-<div>
-    <table>
-        <tr>
-            <td th:utext="${messages.getName()}"></td>
-            <td th:utext="${messages.getLastName()}"></td>
-            <td th:utext="${messages.getEmail()}"></td>
-            <td th:utext="${messages.getLogin()}"></td>
-            <td th:utext="${messages.getPassword()}"></td>
-        </tr>
-    </table>
-
 </div>
 </body>
 </html>

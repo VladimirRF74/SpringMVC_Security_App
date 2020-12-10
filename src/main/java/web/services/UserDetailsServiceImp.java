@@ -1,11 +1,13 @@
 package web.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import web.dao.UserDao;
 import web.model.Role;
@@ -17,8 +19,9 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
     private final UserDao userDao;
+
     @Autowired
-    public UserDetailsServiceImp(UserDao userDao) {
+    public UserDetailsServiceImp (UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -32,11 +35,6 @@ public class UserDetailsServiceImp implements UserDetailsService {
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getNameRole()));
         }
-        //UserDetails userf = org.springframework.security.core.userdetails.User.builder()
-        //        .username(user.getLogin())
-        //        .password(user.getPassword())
-        //        .roles("ADMIN")
-        //        .build();
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), grantedAuthorities);
     }
 }

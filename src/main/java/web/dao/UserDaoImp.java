@@ -22,27 +22,24 @@ public class UserDaoImp implements UserDao {
 
     @Override
     @Transactional
-    public void updateUser(long id, User user) {
+    public void updateUser(Long id, User user) {
         User u = findUserId(id);
         u.setName(user.getName());
         u.setLastName(user.getLastName());
         u.setEmail(user.getEmail());
-        entityManager.createQuery("UPDATE User u set u.name = :name, u.lastName = :last_name, u.email = :email")
-                .setParameter("name", user.getName())
-                .setParameter("last_name", user.getLastName())
-                .setParameter("email", user.getEmail());
+        entityManager.merge(u);
     }
 
     @Override
     @Transactional
-    public void deleteUser(long id) {
-        User u = entityManager.find(User.class, id);
+    public void deleteUser(Long id) {
+        User u = findUserId(id);
         entityManager.remove(u);
     }
 
     @Override
     @Transactional
-    public User findUserId(long id) {
+    public User findUserId(Long id) {
         return entityManager.find(User.class, id);
     }
 

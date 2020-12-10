@@ -1,26 +1,24 @@
-package web.config;
+package web.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import web.config.handler.LoginSuccessHandler;
-import web.services.MyAuthenticationManager;
 import web.services.UserDetailsServiceImp;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final LoginSuccessHandler loginSuccessHandler;
     private final UserDetailsServiceImp userDetailsService;
-    @Autowired
-    private MyAuthenticationManager customAuthencationProvider;
 
     public SecurityConfig(LoginSuccessHandler loginSuccessHandler, UserDetailsServiceImp userDetailsService) {
         this.loginSuccessHandler = loginSuccessHandler;
@@ -29,11 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.inMemoryAuthentication().withUser("ADMIN").password("ADMIN").roles("ADMIN");
-        //auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
-        //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        //auth.authenticationProvider(customAuthencationProvider);
+        auth.authenticationProvider(authProvider());
     }
 
     @Override
@@ -66,16 +60,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //страницы аутентификаци доступна по ролям
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
-                .antMatchers("/users/**").access("hasAnyRole('ADMIN', 'USER')")
+                .antMatchers("/users/**").access("hasRole('USER')")
                 //страницы аутентификаци доступна всем
                 .antMatchers("/login").anonymous()
                 // защищенные URL
                 .antMatchers("/hello").access("hasAnyRole('ADMIN', 'USER')").anyRequest().authenticated();
 
     }
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder(10);
     }
 }
