@@ -15,7 +15,7 @@ public class AdminController {
     public AdminController(UserService userService) {
         this.userService = userService;
     }
-
+//ввывод всех пользователей
     @GetMapping("/index")
     public String index(ModelMap modelMap) {
         modelMap.addAttribute("userList", userService.getAllUsers());
