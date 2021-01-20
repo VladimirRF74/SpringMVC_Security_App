@@ -11,11 +11,13 @@
             <th>Имя</th>
             <th>Фамилия</th>
             <th>Email</th>
+            <th>Role</th>
         </tr>
         <tr>
             <td th:utext="${userInfo.getName()}"></td>
             <td th:utext="${userInfo.getLastName()}"></td>
             <td th:utext="${userInfo.getEmail()}"></td>
+            <td th:utext="${userInfo.getRoles()}"></td>
             <td th:utext="${userInfo.getLogin()}"></td>
         </tr>
     </table>

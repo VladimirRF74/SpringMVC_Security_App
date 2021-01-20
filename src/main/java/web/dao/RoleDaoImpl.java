@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 
 @Component
 @EnableTransactionManagement
-public class RoleDaoImp implements RoleDao{
+public class RoleDaoImpl implements RoleDao{
 
     @PersistenceContext
     private EntityManager entityManager;

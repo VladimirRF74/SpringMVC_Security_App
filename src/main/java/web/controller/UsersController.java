@@ -3,24 +3,24 @@ package web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import web.dao.UserDao;
+import web.services.UserService;
 
 import java.security.Principal;
 
 @Controller
 @RequestMapping(value = "/users")
 public class UsersController {
-    private final UserDao userDao;
+    private final UserService userService;
 
-    public UsersController(UserDao userDaoImp) {
-        this.userDao = userDaoImp;
+    public UsersController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/info")
     public String getInfo(ModelMap modelMap, Principal principal) {
-        modelMap.addAttribute("userInfo", userDao.findUserByLogin(principal.getName()));
+        modelMap.addAttribute("userInfo", userService.findUserByLogin(principal.getName()));
+        //System.out.println(userService.findUserByLogin(principal.getName())); эта строка приводит к StuckOverflowException
         return "users/info";
     }
 
