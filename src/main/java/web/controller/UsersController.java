@@ -16,7 +16,7 @@ public class UsersController {
     public UsersController(UserService userService) {
         this.userService = userService;
     }
-
+//доступ только к своей домашней странице /user, где выводятся его данные.
     @GetMapping("/info")
     public String getInfo(ModelMap modelMap, Principal principal) {
         modelMap.addAttribute("userInfo", userService.findUserByLogin(principal.getName()));
