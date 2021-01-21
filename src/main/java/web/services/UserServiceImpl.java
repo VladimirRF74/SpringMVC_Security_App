@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import web.dao.UserDao;
 import web.model.User;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
             userDao.addUser(user);
         }
     }
-    public List<User> getAllUsers() {
+    public Set<User> getAllUsers() {
         return userDao.getAllUsers();
     }
     public void updateUser(User user) {

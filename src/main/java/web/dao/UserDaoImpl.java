@@ -10,6 +10,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @EnableTransactionManagement
@@ -18,8 +20,14 @@ public class UserDaoImpl implements UserDao {
     private EntityManager entityManager;
     @Override
     @Transactional
-    public List<User> getAllUsers() {
-        return entityManager.createQuery("select u from User u JOIN FETCH u.roles", User.class).getResultList();
+    public Set<User> getAllUsers() {
+        return entityManager.createQuery("select u from User u JOIN FETCH u.roles", User.class).getResultStream().collect(Collectors.toSet());
+    }
+
+    @Override
+    @Transactional
+    public List<User> getAllUsersRoles() {
+        return entityManager.createQuery("select u from Role u", User.class).getResultList();
     }
 
     @Override

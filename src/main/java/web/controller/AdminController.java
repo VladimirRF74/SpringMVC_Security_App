@@ -19,7 +19,6 @@ public class AdminController {
     @GetMapping("/index")
     public String index(ModelMap modelMap) {
         modelMap.addAttribute("userList", userService.getAllUsers());
-        //System.out.println(userService.getAllUsers());
         return "admin/index";
     }
 

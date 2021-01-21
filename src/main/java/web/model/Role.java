@@ -20,10 +20,6 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
-    public Role(Long id) {
-        this.id = id;
-    }
-
     public Role(Long id, String nameRole) {
         this.id = id;
         this.nameRole = nameRole;
@@ -63,7 +59,6 @@ public class Role implements GrantedAuthority {
         return "Role{" +
                 "id=" + id +
                 ", nameRole='" + nameRole + '\'' +
-                ", users=" + users +
                 '}';
     }
 }
